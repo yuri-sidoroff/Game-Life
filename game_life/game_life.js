@@ -1,32 +1,35 @@
-function gameLife() {
+setInterval(function() {
     var numberHeight = 15;//Высота поля
     var numberWidth = 30;//Ширина поля
     var arr = [];//Поле - двумерный массив
     var n = 0;
     var m = 0;
-    var trId;
-    var tableId;
+    var table = document.createElement('table');
+    document.body.insertBefore(table, document.body.firstChild);
     while (n != numberHeight) {
         arr[n] = [];
-        tableId = document.getElementById("tableGame");
-        tableId.insertAdjacentHTML("beforeEnd", "<tr id='trGame" + n + "'></tr>");
+        var tr = document.createElement('tr');
+        table.appendChild(tr);
             while (m != numberWidth) {
                 var cellState = Math.round(Math.random());
                 if (cellState == 0) {
                     arr [n] [m] = cellState;
-                    trId = document.getElementById("trGame"+n);
-                    trId.insertAdjacentHTML("beforeEnd", "<td style='color:white;background-color:white'>" + cellState + "</td>");
+                    var td = document.createElement('td');
+                    td.setAttribute("class", "cellDead");  
+                    tr.appendChild(td);
                     m++;
                 } else {
-                    arr [n] [m] = cellState;
-                    trId = document.getElementById("trGame"+n);
-                    trId.insertAdjacentHTML("beforeEnd", "<td style='color:red;background-color:red'>" + cellState + "</td>");
+                    arr [n] [m] = cellState; 
+                    var td = document.createElement('td');
+                    td.setAttribute("class", "cellLife");  
+                    tr.appendChild(td);                 
                     m++; 
                 }
             }
-        n++;
         m = 0;
+        n++;
     }
-    setTimeout(gameLife,2000);
-}
-gameLife();
+    setTimeout(() => {    
+        table.parentNode.removeChild(table);
+    }, 960);
+}, 1000);
