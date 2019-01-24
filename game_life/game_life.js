@@ -1,41 +1,32 @@
-var lineBegin = "<tr>";
-var lineFinish = "</tr>";
-var cell = "<td>1</td>";
-var arr = [];
-
-var n = 0;
-var m = 0;
-while (n != 10) {
-    arr[n] = [];
-        while (m != 10) {
-            arr [n] [m] = cell;
-            m++;
-        }
-    n++;
-    m = 0;
-}
-
-var x = 0;
-var y = 0;
-document.write ("<table>");
-while (x != 10) {
-    document.write (lineBegin);
-    while (y != 10) {
-    document.write (arr[x][y]);
-    y++;
+function gameLife() {
+    var numberHeight = 15;//Высота поля
+    var numberWidth = 30;//Ширина поля
+    var arr = [];//Поле - двумерный массив
+    var n = 0;
+    var m = 0;
+    var trId;
+    var tableId;
+    while (n != numberHeight) {
+        arr[n] = [];
+        tableId = document.getElementById("tableGame");
+        tableId.insertAdjacentHTML("beforeEnd", "<tr id='trGame" + n + "'></tr>");
+            while (m != numberWidth) {
+                var cellState = Math.round(Math.random());
+                if (cellState == 0) {
+                    arr [n] [m] = cellState;
+                    trId = document.getElementById("trGame"+n);
+                    trId.insertAdjacentHTML("beforeEnd", "<td style='color:white;background-color:white'>" + cellState + "</td>");
+                    m++;
+                } else {
+                    arr [n] [m] = cellState;
+                    trId = document.getElementById("trGame"+n);
+                    trId.insertAdjacentHTML("beforeEnd", "<td style='color:red;background-color:red'>" + cellState + "</td>");
+                    m++; 
+                }
+            }
+        n++;
+        m = 0;
     }
-    document.write (lineFinish);
-    x++;
-    y = 0;
+    setTimeout(gameLife,2000);
 }
-var numberHeight;
-var numberWight;
-document.write ("</table>");
-
-function getSize() {
-            
-    var numberHeight = document.getElementById("sizeHeight").value;
-    var numberWidth = document.getElementById("sizeWidth").value;
-    document.write (numberHeight);
-    document.write (numberWidth);
-}
+gameLife();
