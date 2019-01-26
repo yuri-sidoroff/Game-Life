@@ -1,11 +1,8 @@
-//Создание массива из случайных чисел 0 или 1
-var numberHeight = 15;//Высота поля
-var numberWidth = 30;//Ширина поля
-var arr = [];//Поле - двумерный массив
-var arr1 = [];
-var n = 0;
-var m = 0;
-var a, b, c, d, f, g, h, i, z;
+function start() {
+table.parentNode.removeChild(table);
+
+n = 0;
+m = 0;
 while (n <= numberHeight) {
     arr1[n] = [];
         while (m <= numberWidth) {
@@ -33,6 +30,7 @@ while (n <= numberHeight) {
     n++;
 
 }
+    
 
 setInterval(function() { 
 //Вывод таблицы на экран
@@ -335,3 +333,4 @@ setInterval(function() {
     }
 //Отправляем значения нового массива на экран
 }, 500);
+}

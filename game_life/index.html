@@ -6,16 +6,59 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Игра жизнь</title>
     <link rel="stylesheet" href="./style.css">
+    <script type="text/javascript" src="./game_life_rectangle.js"></script>
+        <!-- <script type="text/javascript" src="./game_life_toroid.js"></script> -->
 </head>
 <body>
-    <script type="text/javascript" src="./game_life_rectangle.js"></script>
-    <!-- <script type="text/javascript" src="./game_life_toroid.js"></script> -->
+    <script>
+    //Создание массива из случайных чисел 0 или 1
+        var numberHeight = 15;//Высота поля
+        var numberWidth = 30;//Ширина поля
+        var arr = [];//Поле - двумерный массив
+        var arr1 = [];
+        var n = 0;
+        var m = 0;
+        var a, b, c, d, f, g, h, i, z;
+        while (n <= numberHeight) {
+            arr[n] = [];
+                while (m <= numberWidth) {
+                        arr[n][m] = 0;
+                        m++; 
+                }
+            m = 0;
+            n++;
+        }
+        n = 0;
+        m = 0;
+        var table = document.createElement('table');
+        document.body.insertBefore(table, document.body.firstChild);
+        while (n <= numberHeight) {
+            var tr = document.createElement('tr');
+            table.appendChild(tr);
+                while (m <= numberWidth) {
+                    if (arr[n][m] === 0) {
+                        var td = document.createElement('td');
+                        td.setAttribute("class", "cellDead");  
+                        tr.appendChild(td);
+                        m++;
+                    } else {
+                        var td = document.createElement('td');
+                        td.setAttribute("class", "cellLife");  
+                        tr.appendChild(td);                 
+                        m++; 
+                    }
+                }
+            m = 0;
+            n++;
+        }  
+    </script>
     <div class="control">
         <input type="text" placeholder="Ширина" value = "" style="height: 15px; width: 50px" id="sizeWidth">
         <input type="text" placeholder="Высота" value = "" style="height: 15px; width: 50px" id="sizeHeight">
         <input type="button" value="OK" id="but" onclick=''>
         <button>Сгенерировать</button>
-        <button>Начать</button>
+        <input type="button" value="Начать" id="start" onclick='start()'>
+        <input type="button" value="Стоп" id="stop" onclick=''>
     </div>
 </body>
 </html>
