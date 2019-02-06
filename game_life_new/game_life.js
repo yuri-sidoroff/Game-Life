@@ -1,14 +1,16 @@
 let x = 0, y = 0;
 let numberHeight = 20 ,numberWidth = 30;
-let arr = [], arr1 = [];
+let arr = [], arr1 = [], arrZero = [];
 let table, tr, td, numberId, cellState;
-let liveGame;
+let liveGame, arrCheck = 0, arrCheckAll = 0, arrCheckZero = 0, countDay = 0;
+let a, b, c, d, f, g, h, i, z;
+
 
 startTable();
 setButton("buttonRandom", "RANDOM", "buttonRandom", goRandom);
 setButton("buttonClear", "CLEAR", "buttonClear", clearGame);
-setInput("inputHeight", "H", inputHeight);
-setInput("inputWidth", "W", inputWidth);
+setInput("inpHeight", "H", inpHeight);
+setInput("inpWidth", "W", inpWidth);
 setButton("buttonStart", "START", "buttonStart", startGame);
 setButton("buttonStop", "STOP", "buttonStop", stopGame);
 
@@ -52,6 +54,9 @@ function setInput(inp, inpPlaceholder, inpFunc) {
 }
 //Функция случайного отображения клеток для кнопки RANDOM
 function goRandom() {
+countDay = 0;
+arrCheckAll = 0;
+liveGame = 0;
 numberId = 1;
 while (x <= numberHeight) {
     arr[x] = [];
@@ -75,18 +80,25 @@ while (x <= numberHeight) {
     x++;
     }
 x = 0;  
-liveGame = 1; 
 }
 
 //Функция установки высоты
-function inputHeight() {
+function inpHeight() {
+    liveGame = 0;
+    if (isNaN(+this.value)) {
+        this.value = 5;
+    }
     numberHeight = this.value;
     table.parentNode.removeChild(table);
     startTable();
 }
 
 //Функция установки ширины
-function inputWidth() {
+function inpWidth() {
+    liveGame = 0;
+    if (isNaN(+this.value)) {
+        this.value = 5;
+    }
     numberWidth = this.value;
     table.parentNode.removeChild(table);
     startTable();
@@ -99,6 +111,8 @@ function stopGame() {
 
 //Функция очистки поля
 function clearGame() {
+    countDay = 0;
+    arrCheckAll = 0;
     liveGame = 0;
     table.parentNode.removeChild(table);
     startTable();
@@ -116,6 +130,7 @@ function clearGame() {
 
 //Функция старта игры
 function startGame() {
+    
     liveGame = 1;
     let game = setInterval(function() { 
         if (liveGame == 1) {
@@ -395,9 +410,42 @@ function startGame() {
                 x++;
             }
             x = 0;
-    // Присваиваем старому массиву новый массив
+
+            // //Проверяем массив на бездействие и на пустое поле
+
+            // while (x <= numberHeight) {
+            //     while (y <= numberWidth) {
+            //         if (arr1[x][y] === arr[x][y]) {
+            //             arrCheck++;
+            //         }
+            //         if (arr1[x][y] === 0) {
+            //             arrCheckZero++;
+            //         }
+            //         y++;
+            //     }
+            //     y = 0;
+            //     x++;
+            // }
+            // x = 0;
+            // let numberCheck = numberHeight*numberWidth
+            // if (arrCheckZero === numberCheck) {
+            //     liveGame = 0;
+            //     alert("Клетки прожили дней - " + countDay);
+            // }
+            // arrCheckZero = 0;
+
+            // if (arrCheck === numberCheck) {
+            //     arrCheckAll++;
+            // }
+            // arrCheck = 0;
+
+            // if (arrCheckAll === 5) {
+            //     liveGame = 0;
+            //     alert("Эти клетки будут жить вечно!");
+            // }
+
+            // Присваиваем старому массиву новый массив
             while (x <= numberHeight) {
-                arr[x][y] = arr1[x][y];
                 while (y <= numberWidth) {
                     arr[x][y] = arr1[x][y];
                     y++;
@@ -406,8 +454,10 @@ function startGame() {
                 x++;
             }
             x = 0;
+
+            countDay++;
         } else {
         clearInterval (game)
         }
-    }, 500);
+    }, 200);
 }
