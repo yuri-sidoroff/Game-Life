@@ -1,30 +1,36 @@
 let x = 0, y = 0;
 let numberHeight = 20 ,numberWidth = 30;
 let arr = [], arr1 = [], arrZero = [];
-let table, tr, td, numberId, cellState;
+let table, tr, td, h2, numberId, cellState;
 let liveGame, arrCheck = 0, arrCheckAll = 0, arrCheckZero = 0, countDay = 0;
 let a, b, c, d, f, g, h, i, z;
 
 
+setH2();
 startTable();
 setButton("buttonRandom", "RANDOM", "buttonRandom", goRandom);
 setButton("buttonClear", "CLEAR", "buttonClear", clearGame);
-setInput("inpHeight", "H", inpHeight);
-setInput("inpWidth", "W", inpWidth);
+setInput("selectHeight", "H", selectHeight);
+setInput("selectWidth", "W", selectWidth);
 setButton("buttonStart", "START", "buttonStart", startGame);
 setButton("buttonStop", "STOP", "buttonStop", stopGame);
 
 function startTable () {
 table = document.createElement('table');
-document.body.insertBefore(table, document.body.firstChild);
+document.body.insertBefore(table, document.body.nextSibling);
 numberId = 1;
 while (x <= numberHeight) {
+    arr[x] = [];
+    arr1[x] = [];
     tr = document.createElement('tr');
     table.appendChild(tr);
     while (y <= numberWidth) {
+        arr[x][y] = 0;
+        arr1[x][y] = 0;
         td = document.createElement('td');
-        td.setAttribute("style", "background-color:white;height:10px;width:10px;border: 1px solid white"); 
+        td.setAttribute("style", "background-color:white;height:10px;width:10px;border: 1px solid lightgrey"); 
         td.id = numberId; 
+        td.addEventListener("click", selectStateCell);
         tr.appendChild(td);
         y++;
         numberId++;
@@ -33,14 +39,19 @@ while (x <= numberHeight) {
     x++;
 }
 x = 0;
-numberId = "";
+}
+//Функция отображения жизни клеток
+function setH2() {
+    h2 = document.createElement('h2');
+    h2.id = "countDays";
+    h2.innerHTML = "Cells lived - 0 days";
+    document.body.insertBefore(h2, document.body.firstChild);
 }
 //Функция для отображения кнопок
 function setButton(btn, btnName, btnid, btnFunc) {
     btn = document.createElement('button');
     btn.innerHTML = btnName;
     btn.id = btnid;
-    btn.className = "start";
     btn.addEventListener("click", btnFunc);
     document.body.insertBefore(btn, document.body.nextSibling);
 }
@@ -59,22 +70,20 @@ arrCheckAll = 0;
 liveGame = 0;
 numberId = 1;
 while (x <= numberHeight) {
-    arr[x] = [];
-    arr1[x] = [];
         while (y <= numberWidth) {
             cellState = Math.round(Math.random());
             if (cellState == 0) {
                 arr[x][y] = cellState;
-                document.getElementById(numberId).setAttribute("style", "background-color:white;height:10px;width:10px;border: 1px solid white");  
+                document.getElementById(numberId).setAttribute("style", "background-color:white;height:10px;width:10px;border: 1px solid lightgrey");  
                 y++;
                 numberId++;
             } else {
                 arr[x][y] = cellState;
-                document.getElementById(numberId).setAttribute("style", "background-color:red;height:10px;width:10px;border: 1px solid white");              
+                document.getElementById(numberId).setAttribute("style", "background-color:red;height:10px;width:10px;border: 1px solid lightgrey");              
                 y++; 
                 numberId++;
             }
-        arr1[x][y] = 1;
+        arr1[x][y] = 0;
         }
     y = 0;
     x++;
@@ -83,23 +92,23 @@ x = 0;
 }
 
 //Функция установки высоты
-function inpHeight() {
+function selectHeight() {
     liveGame = 0;
     if (isNaN(+this.value)) {
         this.value = 5;
     }
-    numberHeight = this.value;
+    numberHeight = +this.value;
     table.parentNode.removeChild(table);
     startTable();
 }
 
 //Функция установки ширины
-function inpWidth() {
+function selectWidth() {
     liveGame = 0;
     if (isNaN(+this.value)) {
         this.value = 5;
     }
-    numberWidth = this.value;
+    numberWidth = +this.value;
     table.parentNode.removeChild(table);
     startTable();
 }
@@ -128,9 +137,26 @@ function clearGame() {
     x = 0;
 }
 
+//Функция выбора состояния клетки
+function selectStateCell() {
+    liveGame = 0;
+    let x = Math.ceil(+this.id / (numberWidth + 1)) - 1;
+    let y = (+this.id % (numberWidth + 1)) - 1;
+    if (y == -1) y = numberWidth;
+    if (x == -1) x = numberHeight;
+    if (arr[x][y] == 0){
+        this.setAttribute("style", "background-color:red;height:10px;width:10px;border: 1px solid lightgrey");
+        arr[x][y] = 1;
+    } else {
+        this.setAttribute("style", "background-color:white;height:10px;width:10px;border: 1px solid lightgrey");
+        arr[x][y] = 0;
+    }
+    x = 0;
+    y = 0;
+}
+
 //Функция старта игры
 function startGame() {
-    
     liveGame = 1;
     let game = setInterval(function() { 
         if (liveGame == 1) {
@@ -262,7 +288,6 @@ function startGame() {
                                 y++;
                             }
                         }
-                    
                     } else if (arr[x][y] == 0) {  //Если клетка мертвая
                         if (x == 0 && y == 0) { //Левый верхний угол
                             f = arr[x][y + 1];
@@ -397,11 +422,11 @@ function startGame() {
             while (x <= numberHeight) {
                     while (y <= numberWidth) {
                         if (arr1[x][y] == 0) {
-                            document.getElementById(numberId).setAttribute("style", "background-color:white;height:10px;width:10px;border: 1px solid white");  
+                            document.getElementById(numberId).setAttribute("style", "background-color:white;height:10px;width:10px;border: 1px solid lightgrey");  
                             y++;
                             numberId++;
                         } else {
-                            document.getElementById(numberId).setAttribute("style", "background-color:red;height:10px;width:10px;border: 1px solid white");              
+                            document.getElementById(numberId).setAttribute("style", "background-color:red;height:10px;width:10px;border: 1px solid lightgrey");              
                             y++; 
                             numberId++;
                         }
@@ -411,38 +436,25 @@ function startGame() {
             }
             x = 0;
 
-            // //Проверяем массив на бездействие и на пустое поле
+            //Проверяем массив на пустое поле
 
-            // while (x <= numberHeight) {
-            //     while (y <= numberWidth) {
-            //         if (arr1[x][y] === arr[x][y]) {
-            //             arrCheck++;
-            //         }
-            //         if (arr1[x][y] === 0) {
-            //             arrCheckZero++;
-            //         }
-            //         y++;
-            //     }
-            //     y = 0;
-            //     x++;
-            // }
-            // x = 0;
-            // let numberCheck = numberHeight*numberWidth
-            // if (arrCheckZero === numberCheck) {
-            //     liveGame = 0;
-            //     alert("Клетки прожили дней - " + countDay);
-            // }
-            // arrCheckZero = 0;
-
-            // if (arrCheck === numberCheck) {
-            //     arrCheckAll++;
-            // }
-            // arrCheck = 0;
-
-            // if (arrCheckAll === 5) {
-            //     liveGame = 0;
-            //     alert("Эти клетки будут жить вечно!");
-            // }
+            while (x <= numberHeight) {
+                while (y <= numberWidth) {
+                    if (arr[x][y] == 0) {
+                        arrCheck++;
+                    }
+                    y++;
+                }
+                y = 0;
+                x++;
+            }
+            x = 0;
+            document.getElementById("countDays").innerHTML = "Cells lived - " + countDay + " days";
+            if (arrCheck == (numberHeight+1)*(numberWidth+1)) {
+                liveGame = 0;
+                document.getElementById("countDays").innerHTML = "Game over. Cells lived - " + countDay + " days";
+            }
+            arrCheck = 0;
 
             // Присваиваем старому массиву новый массив
             while (x <= numberHeight) {
