@@ -67,7 +67,6 @@ function setInput(inp, inpPlaceholder, inpFunc) {
 //Функция случайного отображения клеток для кнопки RANDOM
 function goRandom() {
 countDay = 0;
-arrCheckAll = 0;
 liveGame = 0;
 numberId = 1;
 while (x <= numberHeight) {
@@ -126,7 +125,6 @@ function stopGame() {
 //Функция очистки поля
 function clearGame() {
     countDay = 0;
-    arrCheckAll = 0;
     liveGame = 0;
     table.parentNode.removeChild(table);
     h2.parentNode.removeChild(h2);
@@ -442,12 +440,15 @@ function startGame() {
             }
             x = 0;
 
-            //Проверяем массив на пустое поле
+            //Проверяем массив на пустое поле и на бездействие
 
             while (x <= numberHeight) {
                 while (y <= numberWidth) {
                     if (arr[x][y] == 0) {
                         arrCheck++;
+                    }
+                    if (arr[x][y] == arr1[x][y]) {
+                        arrCheckAll++;
                     }
                     y++;
                 }
@@ -456,11 +457,16 @@ function startGame() {
             }
             x = 0;
             document.getElementById("countDays").innerHTML = "Cells lived - " + countDay + " days";
-            if (arrCheck == (numberHeight+1)*(numberWidth+1)) {
+            if (arrCheck == (numberHeight+1)*(numberWidth+1) || arrCheckAll == (numberHeight+1)*(numberWidth+1)) {
                 liveGame = 0;
                 document.getElementById("countDays").innerHTML = "Game over. Cells lived - " + countDay + " days";
             }
+            if (arrCheckAll == (numberHeight+1)*(numberWidth+1)) {
+                liveGame = 0;
+                document.getElementById("countDays").innerHTML = "Game over. Cells will live forever.";
+            }
             arrCheck = 0;
+            arrCheckAll = 0;
 
             // Присваиваем старому массиву новый массив
             while (x <= numberHeight) {
