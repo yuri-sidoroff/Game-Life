@@ -2,7 +2,7 @@ let x = 0, y = 0;
 let numberHeight = 20 ,numberWidth = 30;
 let arr = [], arr1 = [], arrZero = [];
 let table, tr, td, h2, numberId, cellState;
-let liveGame, arrCheck = 0, arrCheckAll = 0, arrCheckZero = 0, countDay = 0;
+let liveGame, arrCheck = 0, arrCheckAll = 0, arrCheckZero = 0, countDay = 0, gameStop = 0;
 let a, b, c, d, f, g, h, i, z;
 
 
@@ -457,14 +457,16 @@ function startGame() {
             }
             x = 0;
             document.getElementById("countDays").innerHTML = "Cells lived - " + countDay + " days";
-            if (arrCheck == (numberHeight+1)*(numberWidth+1) || arrCheckAll == (numberHeight+1)*(numberWidth+1)) {
+            if (arrCheck == (numberHeight+1)*(numberWidth+1)) {
                 liveGame = 0;
+                gameStop = 1;
                 document.getElementById("countDays").innerHTML = "Game over. Cells lived - " + countDay + " days";
             }
-            if (arrCheckAll == (numberHeight+1)*(numberWidth+1)) {
+            if (arrCheckAll == (numberHeight+1)*(numberWidth+1) && gameStop == 0) {
                 liveGame = 0;
                 document.getElementById("countDays").innerHTML = "Game over. Cells will live forever.";
             }
+            gameStop = 0;
             arrCheck = 0;
             arrCheckAll = 0;
 
