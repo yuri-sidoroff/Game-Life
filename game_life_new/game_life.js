@@ -146,7 +146,6 @@ function clearGame() {
 
 //Функция выбора состояния клетки
 function selectStateCell() {
-    liveGame = 0;
     let x = Math.ceil(+this.id / (numberWidth + 1)) - 1;
     let y = (+this.id % (numberWidth + 1)) - 1;
     if (y == -1) y = numberWidth;
