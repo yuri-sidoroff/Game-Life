@@ -6,8 +6,8 @@ let liveGame, arrCheck = 0, arrCheckAll = 0, arrCheckZero = 0, countDay = 0;
 let a, b, c, d, f, g, h, i, z;
 
 
-setH2();
 startTable();
+
 setButton("buttonRandom", "RANDOM", "buttonRandom", goRandom);
 setButton("buttonClear", "CLEAR", "buttonClear", clearGame);
 setInput("selectHeight", "H", selectHeight);
@@ -15,9 +15,10 @@ setInput("selectWidth", "W", selectWidth);
 setButton("buttonStart", "START", "buttonStart", startGame);
 setButton("buttonStop", "STOP", "buttonStop", stopGame);
 
+setH2();
 function startTable () {
 table = document.createElement('table');
-document.body.insertBefore(table, document.body.nextSibling);
+document.body.insertBefore(table, document.body.firstChild);
 numberId = 1;
 while (x <= numberHeight) {
     arr[x] = [];
@@ -99,7 +100,9 @@ function selectHeight() {
     }
     numberHeight = +this.value;
     table.parentNode.removeChild(table);
+    h2.parentNode.removeChild(h2);
     startTable();
+    setH2()
 }
 
 //Функция установки ширины
@@ -110,7 +113,9 @@ function selectWidth() {
     }
     numberWidth = +this.value;
     table.parentNode.removeChild(table);
+    h2.parentNode.removeChild(h2);
     startTable();
+    setH2()
 }
 
 //Функция остановки игры
@@ -124,7 +129,9 @@ function clearGame() {
     arrCheckAll = 0;
     liveGame = 0;
     table.parentNode.removeChild(table);
+    h2.parentNode.removeChild(h2);
     startTable();
+    setH2()
     while (x <= numberHeight) {
         while (y <= numberWidth) {
             arr[x][y] = 0;
